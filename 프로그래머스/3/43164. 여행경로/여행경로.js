@@ -2,34 +2,27 @@ function solution(tickets) {
     const answer = [];
     const visited = new Array(tickets.length).fill(false);
     
-    function dfs(현재공항, 경로) {
+    function dfs(currentAirport, route) {
         if (visited.every(v => v === true)) {
-            answer.push([...경로]);
+            answer.push([...route]);
             return;
         }
 
         for (let i = 0; i < tickets.length; i++) {
-            if (!visited[i] && tickets[i][0] === 현재공항) {
+            if (!visited[i] && tickets[i][0] === currentAirport) {
                 visited[i] = true;
-                경로.push(tickets[i][1]);
+                route.push(tickets[i][1]);
 
-                dfs(tickets[i][1], 경로);
+                dfs(tickets[i][1], route);
 
-                // 다시 돌아가서 경로 다시 찾아야,,?
+                // 다시 돌아가서 경로 다시 찾기
                 visited[i] = false;
-                경로.pop();
+                route.pop();
             }
         }
     }
     
     dfs("ICN", ["ICN"]);
-    let result = answer.sort((a, b) => {
-        if (a.join('') < b.join('')) {
-            return -1;
-        }
-        if (a.join('') < b.join('')) {
-            return 1;
-        }
-    });
+    let result = answer.sort((a, b) => a.join('') < b.join('') ? -1 : 1);
     return result[0];
 }
